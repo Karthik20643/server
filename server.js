@@ -8,7 +8,9 @@ dotenv.config();
 const app = express();
 const port= 3000;
 
-await connectDB() ;
+connectDB().catch((error) => {
+    console.error('starting without database connection:', error.message);
+});
 
 //middleware
 
