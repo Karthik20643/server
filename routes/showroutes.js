@@ -1,5 +1,5 @@
 import express from 'express' ;
-import { addshow, getNowplayingmovies, getshow, getshows } from '../models/controllers/Showcontroller.js';
+import { addshow, getNowplayingmovies, getshow, getshows } from '../controllers/Showcontroller.js';
 
 const showrouter = express.Router() ;
 
@@ -10,3 +10,5 @@ showrouter.get('/all' , getshows)
 showrouter.get('/:movieid' ,getshow)
 
 showrouter.get('/now-playing',getNowplayingmovies)
+
+export default showrouter
