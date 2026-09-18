@@ -4,7 +4,7 @@ import dotenv from 'dotenv' ;
 import connectDB from './configs/db.js';
 import { clerkMiddleware } from '@clerk/express'
 import { inngest, functions } from "./inngest/index. js"
-
+import showrouter from './routes/showroutes.js'
 dotenv.config();
 
 const app = express();
@@ -27,7 +27,7 @@ app.get('/', (req,res) =>
     res.send("server is live")
 )
 app. use('/api/inngest', serve({ client: inngest, functions } ))
-
+app.use('/api/show', showrouter)
 
 app.listen(port, ()=>console.log(`listening at ${port}`))
 
