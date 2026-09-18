@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Movie from '../Movies.js';
+import Show from '../Show.js';
 
 export const getNowplayingmovies = async (req, res) => {
     try {
@@ -60,3 +61,53 @@ export const addshow = async (req, res) => {
         return res.status(500).json({ success: false, message: error.message });
     }
 };
+
+export const getshows = async (req, res) =>{
+
+    try {
+
+        const shows = await Show.find ({showdatetime : {$gte : new Date()}}).populate
+        ('movie').sort({showdatetime  :1}) ; 
+
+        res.json({success : true, shows : Array.from(uniqueshows)}) ;
+
+    }
+    catch(error){
+        console.error(error),
+        res.json({success : false , message : error.message}) ,
+    }
+
+
+}
+export const getshow = async(req,res) => {
+
+    try {
+const {movieid} = req.params ;
+
+const shows =await show.find({movies : movieid, showdatetime : {$gte : new Date()}})
+
+const movie = await movie.findById(movieid) ;
+const datetime = {} ;
+
+show.foreach((show)=> {
+
+    const date = show.showdatetime.toisostring().split("T")[0];
+
+    if(!datetime[date]){
+        datetime[date] = []
+    }
+    datetime[date].push({time : show.showdatetime, showid : show._id})
+
+
+})
+res.json({success : true, movie ,datetime})
+
+
+    }
+    catch(error){
+console.error(error),
+        res.json({success : false , message : error.message}) ,
+
+    }
+
+}
