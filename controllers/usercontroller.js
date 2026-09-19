@@ -39,6 +39,12 @@ try{
         user.privateMetadata.favorites.push(movieid)
     }
 
+    else{
+
+        user.privateMetadata.favorites =user.privateMetadata.favorites.filter(item => item !== movieid)
+
+    }2
+
     await clerkClient.users.updateUserMetadata(userid, {privateMetadata : user.privateMetadata})
 
     res.json({success : true , message : "favourite added sucecsfully"})
@@ -55,3 +61,25 @@ catch(error){
 }
 
 export default usercontroller
+
+
+export const getfavorites = async (req,res) => {
+
+
+    try{
+
+        const user = await clerkClient.users.getuser(req.auth().userid)
+        const favorites = user.privateMetadata.favorites ;
+        const movies = await movie.find({id : {$in : favorites}})
+
+        res.json({success : true , movies})
+
+    }
+    catch(error){
+
+ console.error(error.message) ;
+    res.json({success : false, message : error.message}) ;
+
+    }
+
+}
